@@ -14,3 +14,10 @@ export interface AuthToken {
   iat: number;
   sub: string;
 }
+
+export interface AuthState {
+  expires: number;
+  error: string;
+  loading: false;
+  seconds: number;
+}

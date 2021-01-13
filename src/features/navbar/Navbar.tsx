@@ -86,6 +86,7 @@ export default function Navbar() {
     <div>
       <CssBaseline />
       <AppBar
+        data-testid="navbar"
         position="static"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -108,6 +109,7 @@ export default function Navbar() {
         </Toolbar>
       </AppBar>
       <SwipeableDrawer
+        data-testid="drawer"
         open={open}
         onOpen={handleDrawerOpen}
         onClose={handleDrawerClose}

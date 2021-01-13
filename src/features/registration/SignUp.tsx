@@ -58,7 +58,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Nowe konto
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate data-testid="signup-form">
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

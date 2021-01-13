@@ -3,14 +3,16 @@ import { AppDispatch, RootState } from '../../app/store';
 import { AuthOptions, BasicAuth } from '../../model';
 import { authenticate } from '../../api/auth';
 
+export const initialState = {
+  expires: 0,
+  error: '',
+  loading: false,
+  seconds: 0,
+};
+
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    expires: 0,
-    error: null,
-    loading: false,
-    seconds: 0,
-  },
+  initialState,
   reducers: {
     setAuthExpires: (state, action) => {
       state.expires = action.payload;

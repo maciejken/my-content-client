@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { withCookies, ReactCookieProps } from 'react-cookie';
@@ -13,6 +14,10 @@ import SignIn from './features/auth/SignIn';
 import SignUp from './features/registration/SignUp';
 import ImageGallery from './features/image-gallery/ImageGallery';
 import { selectAuthExpires, setAuthExpires } from './features/auth/authSlice';
+
+function Home() {
+  return <ImageGallery>Galeria</ImageGallery>;
+}
 
 function App(props: ReactCookieProps) {
 
@@ -33,13 +38,13 @@ function App(props: ReactCookieProps) {
       <Router>
         <Switch>
           <Route path="/sign-in">
-            <SignIn />
+            {authExpires ? <Redirect to="/" /> : <SignIn />}
           </Route>
           <Route path="/sign-up">
             <SignUp />
           </Route>
           <Route path="/">
-            <ImageGallery>Galeria</ImageGallery>
+            {authExpires ? <Home /> : <Redirect to="sign-in" />}
           </Route>
         </Switch>
       </Router>      

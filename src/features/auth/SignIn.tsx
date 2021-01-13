@@ -1,5 +1,5 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,8 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as RouterLink } from 'react-router-dom';
-import { useHistory } from 'react-router';
-import { selectAuthExpires, signIn } from './authSlice';
+import { signIn } from './authSlice';
 
 function Copyright() {
   return (
@@ -61,14 +60,6 @@ export default function SignIn() {
   const updatePassword = (evt: ChangeEvent<HTMLInputElement>) => {
     setPassword(evt.target.value);
   };
-  const authExpires = useSelector(selectAuthExpires);
-  const history = useHistory();
-
-  useEffect(() => {
-    if (authExpires) {
-      history.push('/');
-    }
-  }, [authExpires, history]);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     dispatch(signIn({ username, password }));
@@ -85,7 +76,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Logowanie
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate data-testid="signin-form">
           <TextField
             variant="outlined"
             margin="normal"

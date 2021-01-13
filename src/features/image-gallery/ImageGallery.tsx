@@ -1,8 +1,5 @@
-import React, { PropsWithChildren, useEffect } from 'react';
-import { useHistory } from 'react-router';
-import { useSelector } from 'react-redux';
+import React, { PropsWithChildren } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { selectAuthExpires } from '../auth/authSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -11,18 +8,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function ImageGallery(props: PropsWithChildren<{}>) {
-  const classes = useStyles();
-  const history = useHistory();
-  const authExpires = useSelector(selectAuthExpires);
-
-  useEffect(() => {
-    if (!authExpires) {
-      history.push('/sign-in');
-    }
-  }, [authExpires, history]);
 
   return (
-    <main>
+    <main data-testid="image-gallery">
       <h1>Galeria</h1>
     </main>
   );
