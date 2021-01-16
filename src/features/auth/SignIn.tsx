@@ -78,6 +78,7 @@ export default function SignIn() {
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit} noValidate data-testid="signin-form">
           <TextField
+            inputProps={{ "data-testid": "signin-username"}}
             variant="outlined"
             margin="normal"
             required
@@ -90,6 +91,7 @@ export default function SignIn() {
             onChange={updateUsername}
           />
           <TextField
+            inputProps={{ "data-testid": "signin-password" }}
             variant="outlined"
             margin="normal"
             required
@@ -102,10 +104,12 @@ export default function SignIn() {
             onChange={updatePassword}
           />
           <FormControlLabel
+            data-testid="signin-remember"
             control={<Checkbox value="remember" color="primary" />}
             label="Zapamiętaj mnie"
           />
           <Button
+            data-testid="signin-submit"
             type="submit"
             fullWidth
             variant="contained"

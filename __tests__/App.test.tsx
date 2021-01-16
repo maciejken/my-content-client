@@ -3,9 +3,9 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { createBrowserHistory, History } from 'history';
-import { store } from './app/store';
-import App from './App';
-import { initialState, setAuthExpires } from './features/auth/authSlice';
+import { store } from '../src/app/store';
+import App from '../src/App';
+import { initialState, setAuthExpires } from '../src/features/auth/authSlice';
 
 let history: History;
 
