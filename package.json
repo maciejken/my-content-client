@@ -55,9 +55,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "pre-commit": "echo 'Husky pre-commit!'",
-    "pre-push": "npm test"
   }
 }

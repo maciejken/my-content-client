@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Husky pre-push hook :)"
+npm test
