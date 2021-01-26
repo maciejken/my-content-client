@@ -8,16 +8,15 @@ export interface AuthOptions {
   basicAuth?: BasicAuth;
 }
 
-export interface AuthToken {
-  exp: number;
+export interface AuthData {
+  expires: number;
   groups: number[];
-  iat: number;
-  sub: string;
+  user: string;
 }
 
 export interface AuthState {
-  expires: number;
+  authorized: boolean;
   error: string;
+  expires: number;
   loading: false;
-  seconds: number;
 }

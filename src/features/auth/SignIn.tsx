@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as RouterLink } from 'react-router-dom';
-import { signIn } from './authSlice';
+import { BasicAuth } from '../../model';
 
 function Copyright() {
   return (
@@ -49,20 +48,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+interface SignInProps {
+  authenticate: (basicAuth: BasicAuth) => void;
+}
+
+export default function SignIn(props: SignInProps) {
+  const { authenticate } = props;
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
   const updateUsername = (evt: ChangeEvent<HTMLInputElement>) => {
     setUsername(evt.target.value);
   };
   const updatePassword = (evt: ChangeEvent<HTMLInputElement>) => {
     setPassword(evt.target.value);
   };
-
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    dispatch(signIn({ username, password }));
+    authenticate({ username, password });
     evt.preventDefault();
   };
 

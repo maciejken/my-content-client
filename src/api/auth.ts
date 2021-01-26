@@ -1,5 +1,5 @@
 import http from './http';
-import { AuthOptions, AuthToken } from '../model';
+import { AuthOptions, AuthData } from '../model';
 
 export function authenticate(authOpts: AuthOptions) {
   const url = `${authOpts.apiUrl}/auth`;
@@ -12,5 +12,5 @@ export function authenticate(authOpts: AuthOptions) {
       Authorization: `Basic ${btoa(`${username}:${password}`)}`        
     };
   }
-  return http<AuthToken>(url, reqOpts);
+  return http<AuthData>(url, reqOpts);
 };

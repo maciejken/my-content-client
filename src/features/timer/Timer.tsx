@@ -1,54 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { selectAuthExpires, setAuthExpires, setAuthSeconds } from '../auth/authSlice';
+const noTimeLeft = '0 : 00';
 
-interface TimeLeft {
-  seconds: number;
-  timer: string;
-}
-
-function calculateTimeLeft(authExpires?: number): TimeLeft {
-  let value = { seconds: 0, timer: '0:00' };
-  if (authExpires) {
-    const seconds = Math.floor((authExpires - Date.now())/1000);
+function getTimeLeft(expires: number): string {
+  let timeLeft = noTimeLeft;
+  if (expires) {
+    const seconds = Math.floor((expires - Date.now())/1000);
     if (seconds > 0) {
-      value.seconds = seconds;
       const secs = seconds % 60;
       const mins = (seconds - secs)/60;
       const zeroPaddedSecs = String(secs).padStart(2, '0');
-      value.timer = `${mins} : ${zeroPaddedSecs}`;
+      timeLeft = `${mins} : ${zeroPaddedSecs}`;
     }
   }
-  return value;
+  return timeLeft;
 }
 
-export default function Timer() {
-  const authExpires = useSelector(selectAuthExpires);
-  const dispatch = useDispatch();
-  const [timer, setTimer] = useState('0:00');
+export interface TimerProps {
+  expires: number;
+  signOut: () => void;
+}
+
+export default function Timer(props: TimerProps) {
+  const { expires, signOut } = props;
+  const [timer, setTimer] = useState(noTimeLeft);
 
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    if (authExpires) {
-      let timeLeft = calculateTimeLeft(authExpires);
-      setTimer(timeLeft.timer);
-      interval = setInterval(() => {
-        timeLeft = calculateTimeLeft(authExpires);
-        if (timeLeft.seconds === 0) {
-          dispatch(setAuthExpires(0));
-          clearInterval(interval); 
+    let interval: NodeJS.Timeout | null = null;
+    let mounted = true;
+    if (expires) {
+      let timeLeft = getTimeLeft(expires);
+      setTimer(timeLeft);
+      const interval = setInterval(() => {
+        timeLeft = getTimeLeft(expires);
+        if (timeLeft === noTimeLeft) {
+          clearInterval(interval);
+          signOut();
         }
-        setTimer(timeLeft.timer);
-        dispatch(setAuthSeconds(timeLeft.seconds));
-      }, 1000);    
+        mounted && setTimer(timeLeft);
+      }, 1000);
     }
     return () => {
+      mounted = false;
       if (interval) {
         clearInterval(interval);
       }
     }
-  }, [authExpires, dispatch]);
+  }, [expires, setTimer, signOut]);
 
   return <span>{timer}</span>;
 }

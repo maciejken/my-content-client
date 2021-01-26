@@ -17,7 +17,7 @@ import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Timer from '../timer/Timer';
+import Timer from '../timer';
 
 const drawerWidth = 240;
 

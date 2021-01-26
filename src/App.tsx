@@ -7,49 +7,53 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { withCookies, ReactCookieProps } from 'react-cookie';
 import Navbar from './features/navbar/Navbar';
-import SignIn from './features/auth/SignIn';
+import SignIn from './features/auth';
 import SignUp from './features/registration/SignUp';
 import ImageGallery from './features/image-gallery/ImageGallery';
-import { selectAuthExpires, setAuthExpires } from './features/auth/authSlice';
+import { Cookies } from 'react-cookie';
 
 function Home() {
   return <ImageGallery>Galeria</ImageGallery>;
 }
 
-function App(props: ReactCookieProps) {
+export interface AppProps {
+  cookies?: Cookies,
+  isAuthorized: boolean;
+  signIn: (expires: number) => void;
+}
 
-  const dispatch = useDispatch();
-  const authExpires = useSelector(selectAuthExpires);
-  const authExpiresCookie = props?.cookies?.get('authExpiration');
+function App(props: AppProps) {
+  const { isAuthorized, cookies, signIn } = props;
 
   useEffect(() => {
+    const authExpiresCookie = cookies?.get('authExpires');
     if (authExpiresCookie) {
-      const expires = parseInt(authExpiresCookie);
-      dispatch(setAuthExpires(expires));
+      const authExpires = parseInt(authExpiresCookie);
+      signIn(authExpires);
     }
-  }, [authExpiresCookie, dispatch]);
+  }, [signIn, cookies]);
 
   return (
-    <div>
-      {authExpires ? <Navbar /> : null }
-      <Router>
-        <Switch>
-          <Route path="/sign-in">
-            {authExpires ? <Redirect to="/" /> : <SignIn />}
-          </Route>
-          <Route path="/sign-up">
-            <SignUp />
-          </Route>
-          <Route path="/">
-            {authExpires ? <Home /> : <Redirect to="sign-in" />}
-          </Route>
-        </Switch>
-      </Router>      
-    </div>
+    <>
+      {isAuthorized ? <Navbar /> : null }
+      <React.StrictMode>
+        <Router>
+          <Switch>
+            <Route path="/sign-in">
+              {isAuthorized ? <Redirect to="/" /> : <SignIn />}
+            </Route>
+            <Route path="/sign-up">
+              <SignUp />
+            </Route>
+            <Route path="/">
+              {isAuthorized ? <Home /> : <Redirect to="sign-in" />}
+            </Route>
+          </Switch>
+        </Router>        
+      </React.StrictMode>
+    </>
   );
 }
 
-export default withCookies(App);
+export default App;

@@ -1,29 +1,18 @@
 import React from 'react';
-import * as redux from 'react-redux';
-import * as auth from '../../../src/features/auth/authSlice';
 import { MemoryRouter } from 'react-router-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
-import SignIn from '../../../src/features/auth/SignIn';
+import SignIn from '../SignIn';
 
-let useDispatchSpy: jest.SpyInstance;
-let mockDispatchFn: jest.SpyInstance;
-let signInSpy: jest.SpyInstance;
-
-beforeAll(() => {
-  useDispatchSpy = jest.spyOn(redux, 'useDispatch');
-  mockDispatchFn = jest.fn();
-  signInSpy = jest.spyOn(auth, 'signIn');
-});
+const authenticate = jest.fn();
 
 afterEach(() => {
-  signInSpy.mockClear();
+  authenticate.mockClear();
 });
 
 test('SignIn form', () => {
-  useDispatchSpy.mockReturnValue(mockDispatchFn);
   render(
     <MemoryRouter>
-      <SignIn />
+      <SignIn authenticate={authenticate} />
     </MemoryRouter>
   );
 
@@ -39,5 +28,5 @@ test('SignIn form', () => {
   });
   fireEvent.click(screen.getByTestId('signin-submit'));
 
-  expect(signInSpy).toHaveBeenCalledWith(basicAuth);
+  expect(authenticate).toHaveBeenCalledWith(basicAuth);
 });

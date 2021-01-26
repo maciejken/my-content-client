@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AppDispatch, RootState } from '../../app/store';
+import { AppDispatch } from '../../app/store';
 import { AuthOptions, BasicAuth } from '../../model';
-import { authenticate } from '../../api/auth';
+import * as authApi from '../../api/auth';
 
 export const initialState = {
   expires: 0,
   error: '',
+  authorized: false,
   loading: false,
-  seconds: 0,
 };
 
 export const authSlice = createSlice({
@@ -23,8 +23,8 @@ export const authSlice = createSlice({
     setAuthLoading: (state, action) => {
       state.loading = action.payload;
     },
-    setAuthSeconds: (state, action) => {
-      state.seconds = Math.floor(action.payload);
+    setAuthorized: (state, action) => {
+      state.authorized = action.payload;
     },
   },
 });
@@ -33,32 +33,30 @@ export const {
   setAuthExpires,
   setAuthError,
   setAuthLoading,
-  setAuthSeconds,
+  setAuthorized,
 } = authSlice.actions;
 
-export const signIn = (basicAuth: BasicAuth) => (dispatch: AppDispatch) => {
+export const authenticate = (basicAuth: BasicAuth) => (dispatch: AppDispatch) => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const authOpts: AuthOptions = { apiUrl, basicAuth };
   dispatch(setAuthLoading(true));
-  authenticate(authOpts)
+  authApi.authenticate(authOpts)
     .then(response => {
       if (response.ok) {
-        dispatch(setAuthExpires(response.data?.exp || 0));
+        dispatch(setAuthorized(true));
+        dispatch(setAuthExpires(response?.data?.expires));
       } else {
-        const error = response.error?.message || `Unknown auth error`;
+        const error = response?.error || response?.error?.message || `Unknown auth error`;
         dispatch(setAuthError(error));
       }
     })
     .catch(err => {
-      dispatch(setAuthError(err));
+      console.log(err);
+      dispatch(setAuthError(err.message));
     })
     .finally(() => {
       dispatch(setAuthLoading(false));
     });
 }
-
-export const selectAuthExpires = (state: RootState) => state.auth.expires;
-export const selectAuthLoading = (state: RootState) => state.auth.loading;
-export const selectAuthSeconds = (state: RootState) => state.auth.seconds;
 
 export default authSlice.reducer;

@@ -1,42 +1,46 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { createBrowserHistory, History } from 'history';
-import { store } from '../src/app/store';
-import App from '../src/App';
-import { initialState, setAuthExpires } from '../src/features/auth/authSlice';
+import App from './AppWithCookies';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { Store } from '@reduxjs/toolkit';
 
 let history: History;
+const mockStore = configureStore([]);
+let store: Store;
 
 beforeEach(() => {
-  store.dispatch(setAuthExpires(initialState.expires));
   history = createBrowserHistory();
 });
 
-test('/ redirects to /sign-in if authExpires is not set', () => {
+test('/ redirects to /sign-in if authorized === false', () => {
   history.push('/');
+  store = mockStore({ auth: { authorized: false } });
   const { queryByTestId } = render(
     <Provider store={store}>
       <Router>
         <App />
       </Router>
     </Provider>
+
   );
   expect(queryByTestId('image-gallery')).not.toBeInTheDocument();
   expect(queryByTestId('signin-form')).toBeInTheDocument();
   expect(queryByTestId('navbar')).not.toBeInTheDocument();
 });
 
-test('/ renders home page if authExpires is set', () => {
-  store.dispatch(setAuthExpires(1));
+test('/ renders home page if authorized === true', () => {
   history.push('/');
+  store = mockStore({ auth: { authorized: true } });
   const { queryByTestId } = render(
     <Provider store={store}>
       <Router>
         <App />
       </Router>
     </Provider>
+
   );
   expect(queryByTestId('signin-form')).not.toBeInTheDocument();
   expect(queryByTestId('image-gallery')).toBeInTheDocument();
@@ -44,8 +48,9 @@ test('/ renders home page if authExpires is set', () => {
   expect(queryByTestId('drawer')).not.toBeInTheDocument();
 });
 
-test('/sign-in renders signIn if authExpires is not set', () => {
+test('/sign-in renders signIn if authorized === false', () => {
   history.push('/sign-in');
+  store = mockStore({ auth: { authorized: false } });
   const { queryByTestId } = render(
     <Provider store={store}>
       <Router>
@@ -58,9 +63,9 @@ test('/sign-in renders signIn if authExpires is not set', () => {
   expect(queryByTestId('drawer')).not.toBeInTheDocument();
 });
 
-test('/sign-in redirects to / if authExpires is set', () => {
+test('/sign-in redirects to / if authorized === true', () => {
   history.push('/sign-in');
-  store.dispatch(setAuthExpires(1));
+  store = mockStore({ auth: { authorized: true } });
   const { queryByTestId } = render(
     <Provider store={store}>
       <Router>
@@ -73,9 +78,9 @@ test('/sign-in redirects to / if authExpires is set', () => {
   expect(queryByTestId('drawer')).not.toBeInTheDocument();
 });
 
-test('/sign-up renders signUp', async () => {
+test('/sign-up renders signUp', () => {
   history.push('/sign-up');
-
+  store = mockStore({ auth: { authorized: false } });
   const { queryByTestId } = render(
     <Provider store={store}>
       <Router>
