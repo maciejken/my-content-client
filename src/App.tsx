@@ -5,7 +5,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
 import Navbar from './features/navbar/Navbar';
 import SignIn from './features/auth';
@@ -13,7 +13,7 @@ import SignUp from './features/registration/SignUp';
 import ImageGallery from './features/image-gallery/ImageGallery';
 import { Cookies } from 'react-cookie';
 
-function Home() {
+function Home () {
   return <ImageGallery>Galeria</ImageGallery>;
 }
 
@@ -23,7 +23,7 @@ export interface AppProps {
   signIn: (expires: number) => void;
 }
 
-function App(props: AppProps) {
+function App (props: AppProps) {
   const { isAuthorized, cookies, signIn } = props;
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function App(props: AppProps) {
               {isAuthorized ? <Home /> : <Redirect to="sign-in" />}
             </Route>
           </Switch>
-        </Router>        
+        </Router>
       </React.StrictMode>
     </>
   );

@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
   signIn: (expires: number) => {
     dispatch(setAuthExpires(expires));
     dispatch(setAuthorized(true));
-  },
+  }
 });
 
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);

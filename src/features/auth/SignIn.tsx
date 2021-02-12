@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container';
 import { Link as RouterLink } from 'react-router-dom';
 import { BasicAuth } from '../../model';
 
-function Copyright() {
+function Copyright () {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -33,30 +33,65 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(3, 0, 2)
+  }
 }));
 
 interface SignInProps {
   authenticate: (basicAuth: BasicAuth) => void;
 }
 
-export default function SignIn(props: SignInProps) {
+export default function SignIn (props: SignInProps) {
   const { authenticate } = props;
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [formValid, setFormValid] = useState(false);
+
+  const checkUsername = (username: string) => {
+    if (username.length < 3) {
+      setUsernameError('Wpisz co najmniej 3 znaki');
+    } else if (username.length > 20) {
+      setUsernameError('Wpisz nie więcej niż 20 znaków');
+    } else {
+      setUsernameError('');
+    }
+  };
+
+  const checkPassword = (password: string) => {
+    if (password.length < 6) {
+      setPasswordError('Wpisz co najmniej 6 znaków');
+    } else if (password.length > 20) {
+      setPasswordError('Wpisz nie więcej niż 20 znaków');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  useEffect(() => {
+    username && checkUsername(username);
+    password && checkPassword(password);
+    setFormValid(!!(username && password) && !(usernameError || passwordError));
+  }, [
+    username,
+    password,
+    usernameError,
+    passwordError
+  ]);
+
   const updateUsername = (evt: ChangeEvent<HTMLInputElement>) => {
     setUsername(evt.target.value);
   };
@@ -80,7 +115,7 @@ export default function SignIn(props: SignInProps) {
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit} noValidate data-testid="signin-form">
           <TextField
-            inputProps={{ "data-testid": "signin-username"}}
+            inputProps={{ type: 'text', name: 'username' }}
             variant="outlined"
             margin="normal"
             required
@@ -91,9 +126,11 @@ export default function SignIn(props: SignInProps) {
             autoComplete="username"
             autoFocus
             onChange={updateUsername}
+            error={!!(username && usernameError)}
+            helperText={usernameError}
           />
           <TextField
-            inputProps={{ "data-testid": "signin-password" }}
+            inputProps={{ type: 'text', name: 'username' }}
             variant="outlined"
             margin="normal"
             required
@@ -104,19 +141,20 @@ export default function SignIn(props: SignInProps) {
             id="password"
             autoComplete="current-password"
             onChange={updatePassword}
+            error={!!(password && passwordError)}
+            helperText={passwordError}
           />
           <FormControlLabel
-            data-testid="signin-remember"
             control={<Checkbox value="remember" color="primary" />}
             label="Zapamiętaj mnie"
           />
           <Button
-            data-testid="signin-submit"
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={!formValid}
           >
             Zaloguj
           </Button>
@@ -128,7 +166,7 @@ export default function SignIn(props: SignInProps) {
             </Grid>
             <Grid item>
               <Link component={RouterLink} to="/sign-up" variant="body2">
-                {"Nie masz konta? Załóż"}
+                {'Nie masz konta? Załóż'}
               </Link>
             </Grid>
           </Grid>

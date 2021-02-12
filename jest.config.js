@@ -25,6 +25,6 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
 
   moduleNameMapper: {
-    '@fontsource/roboto': 'identity-obj-proxy',
+    '@fontsource/roboto': 'identity-obj-proxy'
   }
 };

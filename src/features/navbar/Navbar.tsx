@@ -26,22 +26,22 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
+        duration: theme.transitions.duration.leavingScreen
+      })
     },
     appBarShift: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+        duration: theme.transitions.duration.enteringScreen
+      })
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(2)
     },
     hide: {
-      display: 'none',
+      display: 'none'
     },
     drawerHeader: {
       display: 'flex',
@@ -49,18 +49,18 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-end'
     },
     drawerPaper: {
       width: drawerWidth
     },
     list: {
-      width: 250,
-    },
-  }),
+      width: 250
+    }
+  })
 );
 
-export default function Navbar() {
+export default function Navbar () {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -69,7 +69,7 @@ export default function Navbar() {
   };
 
   const handleDrawerClose = (
-    event: React.KeyboardEvent | React.MouseEvent,
+    event: React.KeyboardEvent | React.MouseEvent
   ) => {
     if (
       event &&
@@ -89,7 +89,7 @@ export default function Navbar() {
         data-testid="navbar"
         position="static"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: open
         })}
       >
         <Toolbar>
@@ -114,7 +114,7 @@ export default function Navbar() {
         onOpen={handleDrawerOpen}
         onClose={handleDrawerClose}
         classes={{
-          paper: classes.drawerPaper,
+          paper: classes.drawerPaper
         }}
       >
         <List>

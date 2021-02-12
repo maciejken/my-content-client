@@ -12,7 +12,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true
     },
-    ecmaVersion: 12,
+    ecmaVersion: 11,
     sourceType: 'module'
   },
   plugins: [
@@ -20,8 +20,15 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    'no-console': 'error'
+    'no-console': 'error',
+    semi: ['error', 'always']
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      excludedFiles: '*.test.tsx'
+    }
+  ],
   settings: {
     react: {
       createClass: 'createReactClass',
@@ -31,13 +38,13 @@ module.exports = {
       flowVersion: '0.53'
     },
     propWrapperFunctions: [
-        'forbidExtraProps',
-        {'property': 'freeze', 'object': 'Object'},
-        {'property': 'myFavoriteWrapper'}
+      'forbidExtraProps',
+      { property: 'freeze', object: 'Object' },
+      { property: 'myFavoriteWrapper' }
     ],
     linkComponents: [
       'Hyperlink',
-      {'name': 'Link', 'linkAttribute': 'to'}
+      { name: 'Link', linkAttribute: 'to' }
     ]
   }
-}
+};

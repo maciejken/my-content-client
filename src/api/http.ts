@@ -5,17 +5,17 @@ export interface HttpResponse<T> extends Response {
 
 async function prepareResponse<T> (response: HttpResponse<T>) {
   if (response.ok) {
-    response.data = await response.json()
+    response.data = await response.json();
   } else {
-    const isJson = response.headers.get('Content-Type')?.startsWith('application/json')
-    response.error = isJson ? await response.json() : await response.text()
+    const isJson = response.headers.get('Content-Type')?.startsWith('application/json');
+    response.error = isJson ? await response.json() : await response.text();
   }
-  return response
+  return response;
 }
 // eslint-disable-next-line no-undef
 export default async function http<T> (url: string, opts: RequestInit): Promise<HttpResponse<T>> {
-  opts.credentials = 'include'
-  const request = new Request(url, opts)
-  const response: HttpResponse<T> = await fetch(request)
-  return prepareResponse<T>(response)
+  opts.credentials = 'include';
+  const request = new Request(url, opts);
+  const response: HttpResponse<T> = await fetch(request);
+  return prepareResponse<T>(response);
 };

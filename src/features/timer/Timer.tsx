@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 const noTimeLeft = '0 : 00';
 
-function getTimeLeft(expires: number): string {
+function getTimeLeft (expires: number): string {
   let timeLeft = noTimeLeft;
   if (expires) {
-    const seconds = Math.floor((expires - Date.now())/1000);
+    const seconds = Math.floor((expires - Date.now()) / 1000);
     if (seconds > 0) {
       const secs = seconds % 60;
-      const mins = (seconds - secs)/60;
+      const mins = (seconds - secs) / 60;
       const zeroPaddedSecs = String(secs).padStart(2, '0');
       timeLeft = `${mins} : ${zeroPaddedSecs}`;
     }
@@ -21,12 +21,12 @@ export interface TimerProps {
   signOut: () => void;
 }
 
-export default function Timer(props: TimerProps) {
+export default function Timer (props: TimerProps) {
   const { expires, signOut } = props;
   const [timer, setTimer] = useState(noTimeLeft);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+    const interval: number | null = null;
     let mounted = true;
     if (expires) {
       let timeLeft = getTimeLeft(expires);
@@ -45,7 +45,7 @@ export default function Timer(props: TimerProps) {
       if (interval) {
         clearInterval(interval);
       }
-    }
+    };
   }, [expires, setTimer, signOut]);
 
   return <span>{timer}</span>;
