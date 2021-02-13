@@ -5,7 +5,7 @@ pipeline {
     stages {
       stage('clone') {
         steps {
-          git branch: 'master',
+          git branch: 'main',
             url: 'https://github.com/maciejken/my-content-client.git'
         }
       }
