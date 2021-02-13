@@ -12,7 +12,6 @@ pipeline {
       stage('build') {
         steps {
           sh 'node -v'
-          sh 'chown -R 117:123 "/.npm"'
           sh 'npm install'
         }
       }
