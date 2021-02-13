@@ -6,6 +6,7 @@ pipeline {
       stage('clone') {
         steps {
           git branch: 'master'
+            url: 'hhttps://github.com/maciejken/my-content-client.git'
         }
       }
       stage('build') {
