@@ -1,17 +1,23 @@
 pipeline {
     agent {
       docker { image 'node:14-alpine' }
-      environment {
-        HOME = '.'
-      }
     }
     stages {
+      stage('clone') {
+        steps {
+          git branch: 'master'
+        }
+      }
       stage('build') {
-          steps {
-              sh 'node -v'
-              // sh 'chown -R 117:123 "/.npm"'
-              sh 'npm install'
-          }
+        steps {
+          sh 'node -v'
+          sh 'npm install'
+        }
+      }
+      stage('unit tests') {
+        steps {
+          sh 'npm test'
+        }
       }
     }
 }
