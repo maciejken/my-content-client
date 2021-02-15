@@ -3,15 +3,16 @@ pipeline {
       docker { image 'node:14-alpine' }
     }
     stages {
-      stage('clone') {
-        steps {
-          git branch: 'main',
-            url: 'https://github.com/maciejken/my-content-client.git'
-        }
-      }
+      // stage('clone') {
+      //   steps {
+      //     git branch: 'main',
+      //       url: 'https://github.com/maciejken/my-content-client.git'
+      //   }
+      // }
       stage('build') {
         steps {
           sh 'node -v'
+          sh 'echo $PWD'
           sh 'HOME=. npm install'
         }
       }
