@@ -53,3 +53,25 @@ test('SignIn form shows error if password is too short', () => {
   expect(authenticate).not.toHaveBeenCalled();
   expect(queryByText(/Wpisz co najmniej/)).toBeInTheDocument();
 });
+
+test('SignIn form shows error if username is too long', () => {
+  const { queryByText } = render(
+    <MemoryRouter>
+      <SignIn authenticate={authenticate} />
+    </MemoryRouter>
+  );
+
+  const username = 'veeeeeryLooooongUsername';
+  const password = 'mockpass23';
+
+  fireEvent.input(screen.getByRole('textbox', { name: 'Nazwa użytkownika' }), {
+    target: { value: username }
+  });
+  fireEvent.input(screen.getByRole('textbox', { name: 'Hasło' }), {
+    target: { value: password }
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Zaloguj' }));
+
+  expect(authenticate).not.toHaveBeenCalled();
+  expect(queryByText(/Wpisz nie więcej/)).toBeInTheDocument();
+});
