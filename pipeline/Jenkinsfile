@@ -12,7 +12,7 @@ pipeline {
       stage('build') {
         steps {
           sh 'node -v'
-          sh 'npm install'
+          sh 'HOME=. npm install'
         }
       }
       stage('unit tests') {
