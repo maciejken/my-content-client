@@ -75,3 +75,25 @@ test('SignIn form shows error if username is too long', () => {
   expect(authenticate).not.toHaveBeenCalled();
   expect(queryByText(/Wpisz nie więcej/)).toBeInTheDocument();
 });
+
+test('SignIn form shows error if username contains spaces', () => {
+  const { queryByText } = render(
+    <MemoryRouter>
+      <SignIn authenticate={authenticate} />
+    </MemoryRouter>
+  );
+
+  const username = 'mock user ';
+  const password = 'mockpass23';
+
+  fireEvent.input(screen.getByRole('textbox', { name: 'Nazwa użytkownika' }), {
+    target: { value: username }
+  });
+  fireEvent.input(screen.getByRole('textbox', { name: 'Hasło' }), {
+    target: { value: password }
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Zaloguj' }));
+
+  expect(authenticate).not.toHaveBeenCalled();
+  expect(queryByText(/Nazwa użytkownika nie może zawierać spacji/)).toBeInTheDocument();
+});

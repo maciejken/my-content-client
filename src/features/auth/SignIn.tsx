@@ -66,6 +66,8 @@ export default function SignIn (props: SignInProps) {
       setUsernameError('Wpisz co najmniej 3 znaki');
     } else if (username.length > 20) {
       setUsernameError('Wpisz nie więcej niż 20 znaków');
+    } else if (/\s+/.test(username)) {
+      setUsernameError('Nazwa użytkownika nie może zawierać spacji');
     } else {
       setUsernameError('');
     }
