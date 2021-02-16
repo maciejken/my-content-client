@@ -3,12 +3,6 @@ pipeline {
       docker { image 'node:14-alpine' }
     }
     stages {
-      // stage('clone') {
-      //   steps {
-      //     git branch: 'main',
-      //       url: 'https://github.com/maciejken/my-content-client.git'
-      //   }
-      // }
       stage('build') {
         steps {
           sh 'node -v'
@@ -18,7 +12,7 @@ pipeline {
       }
       stage('unit tests') {
         steps {
-          sh 'npm test'
+          sh 'npm run test:ci'
         }
       }
     }
