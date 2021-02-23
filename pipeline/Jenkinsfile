@@ -20,5 +20,12 @@ pipeline {
           sh 'npm run build'
         }
       }
+      stage('docker run') {
+        steps {
+          sh 'docker stop my_content_client'
+          sh 'docker run -it --rm -d -p 8000:80 --name my_content_client \
+          -v $PWD/build:/usr/share/nginx/html nginx'
+        }
+      }
     }
 }
