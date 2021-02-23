@@ -3,7 +3,7 @@ pipeline {
       docker { image 'node:14-alpine' }
     }
     stages {
-      stage('build') {
+      stage('install') {
         steps {
           sh 'node -v'
           sh 'echo $PWD'
@@ -13,6 +13,11 @@ pipeline {
       stage('unit tests') {
         steps {
           sh 'npm run test:ci'
+        }
+      }
+      stage('build') {
+        steps {
+          sh 'npm run build'
         }
       }
     }
