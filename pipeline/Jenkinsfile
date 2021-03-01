@@ -24,6 +24,7 @@ pipeline {
       steps {
         sh 'docker stop my_content_client || true && docker rm my_content_client || true'
         sh 'docker run -it --rm -d -p 8000:80 --name my_content_client \
+        -v $PWD/nginx/conf.d:/etc/nginx/conf.d \
         -v $PWD/build:/usr/share/nginx/html nginx'
       }
     }
