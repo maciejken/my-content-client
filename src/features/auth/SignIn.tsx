@@ -132,7 +132,7 @@ export default function SignIn (props: SignInProps) {
             helperText={usernameError}
           />
           <TextField
-            inputProps={{ type: 'text', name: 'username' }}
+            inputProps={{ type: 'password', name: 'password' }}
             variant="outlined"
             margin="normal"
             required
