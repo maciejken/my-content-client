@@ -17,7 +17,7 @@ pipeline {
     }
     stage('build') {
       environment {
-        REACT_APP_API_URL = 'https://localhost:3210/api'
+        REACT_APP_API_URL = 'https://172.17.0.1:3210/api'
       }
       steps {
         sh 'npm run build'
@@ -26,7 +26,7 @@ pipeline {
     stage('docker run') {
       steps {
         sh 'docker stop my_content_client || true'
-        sh 'docker run -it --rm -d -p 8000:80 --name my_content_client \
+        sh 'docker run -it --rm -d -p 8443:443 --name my_content_client \
         -v $PWD/nginx/conf.d:/etc/nginx/conf.d \
         -v $PWD/build:/usr/share/nginx/html nginx'
       }

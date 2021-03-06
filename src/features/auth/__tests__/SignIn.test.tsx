@@ -23,7 +23,7 @@ test('SignIn form submit button calls authenticate function', () => {
   fireEvent.input(screen.getByRole('textbox', { name: 'Nazwa użytkownika' }), {
     target: { value: username }
   });
-  fireEvent.input(screen.getByRole('textbox', { name: 'Hasło' }), {
+  fireEvent.input(screen.getByLabelText(/Hasło/), {
     target: { value: password }
   });
   fireEvent.click(screen.getByRole('button', { name: 'Zaloguj' }));
@@ -45,7 +45,7 @@ test('SignIn form shows error if password is too short', () => {
   fireEvent.input(screen.getByRole('textbox', { name: 'Nazwa użytkownika' }), {
     target: { value: username }
   });
-  fireEvent.input(screen.getByRole('textbox', { name: 'Hasło' }), {
+  fireEvent.input(screen.getByLabelText(/Hasło/), {
     target: { value: password }
   });
   fireEvent.click(screen.getByRole('button', { name: 'Zaloguj' }));
@@ -67,7 +67,7 @@ test('SignIn form shows error if username is too long', () => {
   fireEvent.input(screen.getByRole('textbox', { name: 'Nazwa użytkownika' }), {
     target: { value: username }
   });
-  fireEvent.input(screen.getByRole('textbox', { name: 'Hasło' }), {
+  fireEvent.input(screen.getByLabelText(/Hasło/), {
     target: { value: password }
   });
   fireEvent.click(screen.getByRole('button', { name: 'Zaloguj' }));
@@ -89,7 +89,7 @@ test('SignIn form shows error if username contains spaces', () => {
   fireEvent.input(screen.getByRole('textbox', { name: 'Nazwa użytkownika' }), {
     target: { value: username }
   });
-  fireEvent.input(screen.getByRole('textbox', { name: 'Hasło' }), {
+  fireEvent.input(screen.getByLabelText(/Hasło/), {
     target: { value: password }
   });
   fireEvent.click(screen.getByRole('button', { name: 'Zaloguj' }));
