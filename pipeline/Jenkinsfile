@@ -2,9 +2,6 @@ pipeline {
   agent {
     node { label 'master' }
   }
-  environment {
-    REACT_APP_API_URL=https://localhost:3210/api
-  }
   stages {
     stage('install') {
       steps {
@@ -19,6 +16,9 @@ pipeline {
       }
     }
     stage('build') {
+      environment {
+        REACT_APP_API_URL = 'https://localhost:3210/api'
+      }
       steps {
         sh 'npm run build'
       }
