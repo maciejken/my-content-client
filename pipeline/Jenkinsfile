@@ -17,7 +17,7 @@ pipeline {
     }
     stage('build') {
       environment {
-        REACT_APP_API_URL = 'http://172.17.0.1:8001/api'
+        REACT_APP_API_URL = 'http://localhost:8001/api'
       }
       steps {
         sh 'npm run build'
