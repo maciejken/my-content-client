@@ -16,10 +16,10 @@ pipeline {
       }
     }
     stage('build') {
-      environment {
+      // environment {
         // TODO: move to jenkins job parameter
-        REACT_APP_API_URL = 'http://malina0:8001/api'
-      }
+        // REACT_APP_API_URL = 'http://malina0:8001/api'
+      // }
       steps {
         sh 'npm run build'
       }
