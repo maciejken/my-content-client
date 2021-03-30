@@ -20,9 +20,10 @@ pipeline {
         sh 'npm run build'
       }
     }
-    stage('docker run') {
+    stage('deploy') {
       steps {
-        sh 'docker-compose up -d'
+        sh 'rm -rf /home/pi/public_html/*'
+        sh 'cp -R ${PWD}/build/* /home/pi/public_html/'
         // sh 'docker run -it --rm -d -p $CLIENT_PORT:$PORT --name my_content_client \
         //     -v $PWD/nginx/conf.d:/etc/nginx/conf.d \
         //     -v $PWD/build:/usr/share/nginx/html nginx'
