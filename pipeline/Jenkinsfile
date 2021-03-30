@@ -22,10 +22,10 @@ pipeline {
     }
     stage('docker run') {
       steps {
-        sh 'docker stop my_content_client || true'
-        sh 'docker run -it --rm -d -p $EXT_PORT:$PORT --name my_content_client \
-            -v $PWD/nginx/conf.d:/etc/nginx/conf.d \
-            -v $PWD/build:/usr/share/nginx/html nginx'
+        sh 'docker-compose up -d'
+        // sh 'docker run -it --rm -d -p $CLIENT_PORT:$PORT --name my_content_client \
+        //     -v $PWD/nginx/conf.d:/etc/nginx/conf.d \
+        //     -v $PWD/build:/usr/share/nginx/html nginx'
       }
     }
   }

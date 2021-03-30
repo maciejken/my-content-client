@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  my_content_client:
+    image: nginx
+    volumes:
+      - ${PWD}/nginx/conf.d:/etc/nginx/conf.d
+      - ${PWD}/build:/usr/share/nginx/html
+    ports:
+      - "${CLIENT_PORT}:${NGINX_PORT}"
+    restart: always
